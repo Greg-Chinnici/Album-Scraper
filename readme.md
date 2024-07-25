@@ -14,3 +14,5 @@
 - maybe apple changes some things, and I can jsut hotswap to a spotify or soundcloud scraper.
 
 ### This is basically my first actual web based project, everything else is console or Unity
+
+- as I was making this I learned how to properly usee XPATH. its basically regex for html DOM.
