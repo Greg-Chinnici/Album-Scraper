@@ -16,7 +16,7 @@ namespace Scraper
 
             // Selects the first album in the list, fis the xpath later
             HtmlNodeCollection firstalbuminsearch = document.DocumentNode.SelectNodes(
-                "//*[@id=\"scrollable-page\"]/main/div/div[2]/div[3]/div/div[2]/section/div[1]/ul/li[1]/div/div/div[1]/div[3]/a");
+                "//a[@class='product-lockup__link svelte-cgujde'])[0]");
 
             string ablumpagelink = firstalbuminsearch[0].Attributes["href"].Value;
 
