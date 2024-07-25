@@ -51,8 +51,9 @@ class Album:
         return {
         "name": self.Name,
         "artist": self.Artist,
+        "year": self.Year,
         "cover": self.CoverLink,
-        "songs": self.songs,
+        "songs": self.songs
         }
 
 def formatForLink(searchString):
@@ -108,10 +109,9 @@ def findAlbumLink(website, driver):
     # doing xpath so i can move it to other scrapers or langauges if i need to
     # grabs the first <a> with product_lockup and then takes the href value of the element. this is the link to the album page
     # if it is detected as useless, search from some random defaults
-    albumlinkElements = driver.find_elements(By.XPATH ,"(//a[@class='product-lockup__link svelte-cgujde'])[position()<4]")
+    albumlinkElements = driver.find_elements(By.XPATH ,"(//a[@data-testid='product-lockup-link'])[position()<4]")
     alternateLinks = [element.get_attribute('href') for element in albumlinkElements]
     #altNames = [l.split('/')[-2].replace('-',' ') for l in alternateLinks]
-    print(alternateLinks)
     albumlink = alternateLinks[0]
     return albumlink, alternateLinks
 #endregion
@@ -120,7 +120,7 @@ def findAlbumLink(website, driver):
 
 #region Cover
 def GetCoverLink(driver):
-    source = driver.find_element(By.XPATH , "(//picture[@class='svelte-1vcdnyq'])[1]/source[2]")
+    source = driver.find_element(By.XPATH , "(//picture)[3]/source[2]")
     srcset = source.get_attribute('srcset')
     return srcset.split(',')[-1].split(' ')[0]
 
@@ -129,22 +129,19 @@ def GetCoverLink(driver):
 
 #region Info
 def GetInfo(driver):
-    texts = driver.find_element(By.XPATH , "//div[@class='headings svelte-1la0y7y']")
+    texts = driver.find_element(By.XPATH , "//div[@data-testid='container-detail-header']")
 
-    asciiStuff = texts.text.encode('ascii', 'replace').decode()
+    text = texts.text.split("Preview")[0]
 
-    #? edge cases like (YEN)$ from 'Vultures 1' will be ?$. either change to unicode or find a fix
-    #? also coup de grace is broken. 
-    
-    def rep(s , old , new):
+
+    def rep(s:str , old:list , new:str):
         for d in old:
             s = s.replace(d,new)
         return s
 
-    asciiStuff = rep(asciiStuff , ["???" , "\n"], "^")
+    text = rep(text , ["\u2004·\u2004" , "\n"], "^")
     #disregard the genre for now
-
-    return asciiStuff.split("^")
+    return text.split("^")
 
 
 #endregion
@@ -152,7 +149,7 @@ def GetInfo(driver):
 
 #region Songs
 def GetSongs(driver):
-    songElements = driver.find_elements(By.XPATH , "//div[@class='songs-list-row__song-name svelte-nkrxig']")
+    songElements = driver.find_elements(By.XPATH , "//div[@data-testid='track-title']")
     return [e.text for e in songElements]
 
 
