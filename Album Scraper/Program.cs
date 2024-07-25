@@ -129,10 +129,10 @@ namespace Scraper
             HtmlDocument document = web.Load(url);
 
             // Selects the first album in the list 
-            HtmlNodeCollection firstalbuminsearch = document.DocumentNode.SelectNodes(
-                "//*[@id=\"scrollable-page\"]/main/div/div[2]/div[3]/div/div[2]/section/div[1]/ul/li[1]/div/div/div[1]/div[3]/a");
+            HtmlNode firstalbuminsearch = document.DocumentNode.SelectNode(
+                "//a[@class='product-lockup__link svelte-cgujde'])[0]");
 
-            return firstalbuminsearch[0].Attributes["href"].Value;
+            return firstalbuminsearch.Attributes["href"].Value;
         }
 
         private static string formatalbumnameforurl(string name)
