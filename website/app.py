@@ -11,5 +11,5 @@ def hello_world():
 
 @app.route("/search")
 def search():
-    alb = GetAlbum("beerbongs and bentlys")
+    alb = GetAlbum("The E.N.D.")
     return render_template('poster.html' , name=alb['name'] , artist=alb['artist'], year=alb['year'], cover=alb['cover'])
