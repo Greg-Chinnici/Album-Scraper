@@ -59,13 +59,13 @@ class Album:
 def formatForLink(searchString):
     return searchString.replace(' ', "%20")
 
-
+#? sometimes it just breaks, not sure if it is the driver crashing or what
 def GetAlbum(searchTerm:str):
     """
     input: 
         searchTerm (string): name and artist is enough
     return:
-        JSON of the album data
+        dictionary of the album data. Defined in Album.ToDictionary
     """
     #? you are at the mercy of Apple's SEO for albums, sometimes it will give the deluxe versions
     #? maybe add a selector that gives the top 3 from the search
@@ -86,6 +86,7 @@ def GetAlbum(searchTerm:str):
     info = GetInfo(driver)
     ChosenAlbum.Name = info[0]
     ChosenAlbum.Artist = info[1]
+    #info[2] is the Genre
     ChosenAlbum.Year = info[3]
 
     ChosenAlbum.songs = GetSongs(driver)

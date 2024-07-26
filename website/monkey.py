@@ -1,3 +1,11 @@
 from webscraper import GetAlbum
 
-print(GetAlbum("Vultures 1 kanye west"))
+searches = [
+    "Monkey buisness black eyed peas",
+    "The E.N.D.",
+    "Elephunk",
+    "The Beginning deluxe"
+    ]
+
+for search in searches:
+    print(GetAlbum(search)['songs'])
