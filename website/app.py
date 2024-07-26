@@ -1,6 +1,8 @@
 from webscraper import GetAlbum
 from flask import Flask
 from flask import render_template
+from markupsafe import escape
+
 
 
 app = Flask(__name__)
@@ -9,7 +11,7 @@ app = Flask(__name__)
 def hello_world():
     return "<div>Hi</div>"
 
-@app.route("/search")
-def search():
-    alb = GetAlbum("The E.N.D.")
-    return render_template('poster.html' , name=alb['name'] , artist=alb['artist'], year=alb['year'], cover=alb['cover'])
+@app.route("/search/<searchterm>")
+def search(searchterm):
+    alb = GetAlbum(escape(searchterm))
+    return render_template('poster.html' , name=alb['name'] , artist=alb['artist'], year=alb['year'], cover=alb['cover'],songs=alb['songs'])

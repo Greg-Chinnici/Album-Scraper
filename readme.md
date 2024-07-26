@@ -18,4 +18,7 @@
 
 - as I was making this I learned how to properly usee XPATH. its basically regex for html DOM.
 
-#### Note: dont use the svelt class names in xpath because they constantly change
+#### Notes:
+
+- dont use the svelt class names in xpath because they constantly change
+- some artists dont post to apple music, thats why i want to have different interfaces

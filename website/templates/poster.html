@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 
+
+
 <div class="split right fira-sans-regular">
+    
     <div class="centered">  
 
     {% if name %}
@@ -24,9 +27,10 @@
     {% if cover %}
         <img id="cover" src= {{ cover }} >
     {% endif %}
-        <ul id="songs">
-            <li>Item 1</li>
-            <li>Item 2</li>
+        <ul id="songslist">
+            {% for song in songs %}
+            <li>{{ song }}</li>
+            {% endfor %}
         </ul>
     </div>
 </div>

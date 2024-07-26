@@ -121,7 +121,7 @@ def findAlbumLink(website, driver):
 
 #region Cover
 def GetCoverLink(driver):
-    source = driver.find_element(By.XPATH , "(//picture)[3]/source[2]")
+    source = driver.find_element(By.XPATH , "(//picture)[2]/source[2]")
     srcset = source.get_attribute('srcset')
     return srcset.split(',')[-1].split(' ')[0]
 
