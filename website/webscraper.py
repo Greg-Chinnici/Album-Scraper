@@ -1,6 +1,6 @@
 from selenium import webdriver 
 from selenium.webdriver.common.by import By
-from defaultAlbums import defaults
+from defaultAlbums import defaultsearches as defaults
 import random
 
 
@@ -113,7 +113,7 @@ def findAlbumLink(website, driver):
     # if it is detected as useless, search from some random defaults
     albumlinkElements = driver.find_elements(By.XPATH ,"(//a[@data-testid='product-lockup-link'])[position()<4]")
     alternateLinks = [element.get_attribute('href') for element in albumlinkElements]
-    
+
     #altNames = [l.split('/')[-2].replace('-',' ') for l in alternateLinks]
     albumlink = alternateLinks[0]
     return albumlink, alternateLinks

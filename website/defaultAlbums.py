@@ -1,4 +1,4 @@
-defaults = [
+defaultsearches = [
     "Beerbongs and Bentlys",
     "Beyonce"
 ]
