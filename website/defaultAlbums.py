@@ -1,4 +1,7 @@
 defaultsearches = [
     "Beerbongs and Bentlys",
-    "Beyonce"
+    "Beyonce",
+    "The Chronic",
+    "Surfs up Soundtrack",
+    "Die Lit"
 ]
