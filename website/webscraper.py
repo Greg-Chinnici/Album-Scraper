@@ -1,5 +1,6 @@
 from selenium import webdriver 
 from selenium.webdriver.common.by import By
+from defaultAlbums import defaultsearches as defaults
 import random
 
 
@@ -101,10 +102,10 @@ def GetAlbum(searchTerm:str):
 def findAlbumLink(website, driver):
     driver.get(website)
 
-    defaultsearches = ["Thriller","Beerbong and Bentlys","OK Computer","BEYONCE","Master of Puppets"]
     no_results_elements = driver.find_elements(By.XPATH, "//*[text()='No Results' or text()='Try a new search.']")
-    if len(no_results_elements) == 2:
-        driver.get("https://music.apple.com/us/search?term="+formatForLink(random.choice(defaultsearches)))
+    if len(no_results_elements) == 2 or len(website.split("/")[-1]) == len("search?term="):
+        link = "https://music.apple.com/us/search?term="+formatForLink(random.choice(defaults))
+        driver.get(link)
 
     # product lockup is only on the albums, so pick the first one and take the link. xpaths are not zero indexed
     # doing xpath so i can move it to other scrapers or langauges if i need to
@@ -112,6 +113,7 @@ def findAlbumLink(website, driver):
     # if it is detected as useless, search from some random defaults
     albumlinkElements = driver.find_elements(By.XPATH ,"(//a[@data-testid='product-lockup-link'])[position()<4]")
     alternateLinks = [element.get_attribute('href') for element in albumlinkElements]
+
     #altNames = [l.split('/')[-2].replace('-',' ') for l in alternateLinks]
     albumlink = alternateLinks[0]
     return albumlink, alternateLinks
