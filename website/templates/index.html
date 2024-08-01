@@ -5,10 +5,46 @@
 <title>Album Poster Creator</title>
 
 <head>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans&family=PT+Serif&display=swap">
+
+    <style>
+
+        body{
+            display: flex;
+            margin: 0;
+            height: 100vh;
+        }
+
+        li{
+            display: inline-block;
+            width: 20%; 
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .split {
+            flex: 1;
+            overlfow: auto;
+        }
+        
+        .left{
+            background-color: #ECECED;
+        }
+        
+        .right {
+            background-color: #E3F0FF;
+        }
+        
+        .centered img {
+            width: 500px;
+        }
+
+        .songs{
+            font-weight: bold;
+        }
+        </style>
 </head>
 
 <body>
