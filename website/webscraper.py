@@ -1,5 +1,6 @@
-from selenium import webdriver 
+from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.wpewebkit.webdriver import WebDriver
 from defaultAlbums import defaultsearches as defaults
 import random
 
@@ -21,11 +22,11 @@ class Album:
     CoverLink = ""
 
     Songs = []
-    
+
     #* these will return Dictionaries later
     def info(self):
         return f"{self.Name} by {self.Artist} in {self.Year}"
-    
+
     def all(self):
         return f"{self.info()} \n {self.CoverLink} \n {self.Songs}"
 
@@ -43,8 +44,8 @@ class Album:
         return result
 
     def songs(self , includeParenthese = True):
-        return [(self.removeParens(song) if includeParenthese == False else song) for song in songs]
-    
+        return [(self.removeParens(song) if includeParenthese == False else song) for song in self.Songs]
+
     def __str__(self):
         return self.info() + "\n" + ''.join(self.songs(False))
 
@@ -54,7 +55,7 @@ class Album:
         "artist": self.Artist,
         "year": self.Year,
         "cover": self.CoverLink,
-        "songs": self.songs
+        "songs": self.Songs
         }
 
 def formatForLink(searchString):
@@ -63,7 +64,7 @@ def formatForLink(searchString):
 #? sometimes it just breaks, not sure if it is the driver crashing or what
 def GetAlbum(searchTerm:str):
     """
-    input: 
+    input:
         searchTerm (string): name and artist is enough
     return:
         dictionary of the album data. Defined in Album.ToDictionary
@@ -77,10 +78,10 @@ def GetAlbum(searchTerm:str):
 
     albumLink, altLinks = findAlbumLink(searchWebsite, driver)
     # once it gets past here, it is definetly a valid album. sometimes the wrong one. so give list of alternative options
-    
+
     ChosenAlbum = Album()
 
-    driver.get(albumLink)
+    driver.get(url = albumLink)
 
     ChosenAlbum.CoverLink = GetCoverLink(driver)
 
@@ -90,8 +91,8 @@ def GetAlbum(searchTerm:str):
     #info[2] is the Genre
     ChosenAlbum.Year = info[3]
 
-    ChosenAlbum.songs = GetSongs(driver)
-    
+    ChosenAlbum.Songs = GetSongs(driver)
+
     driver.quit()
 
     return ChosenAlbum.ToDictionary()
@@ -99,7 +100,7 @@ def GetAlbum(searchTerm:str):
 
 
 #region Link
-def findAlbumLink(website, driver):
+def findAlbumLink(website :str, driver):
     driver.get(website)
 
     no_results_elements = driver.find_elements(By.XPATH, "//*[text()='No Results' or text()='Try a new search.']")
@@ -115,7 +116,7 @@ def findAlbumLink(website, driver):
     alternateLinks = [element.get_attribute('href') for element in albumlinkElements]
 
     #altNames = [l.split('/')[-2].replace('-',' ') for l in alternateLinks]
-    albumlink = alternateLinks[0]
+    albumlink :str= alternateLinks[0]
     return albumlink, alternateLinks
 #endregion
 
@@ -157,6 +158,3 @@ def GetSongs(driver):
 
 
 #endregion
-
-
-
