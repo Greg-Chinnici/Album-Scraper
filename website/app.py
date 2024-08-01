@@ -16,8 +16,13 @@ def search():
     data = None
     if request.method == 'POST':
         alb = GetAlbum(escape(request.form['album_search']))
-        return render_template('poster.html' , name=alb['name'] , artist=alb['artist'], year=alb['year'], cover=alb['cover'],songs=alb['songs'])
-    
+        return render_template('poster.html',
+            name=alb['name'],
+            artist=alb['artist'],
+            year=alb['year'],
+            cover=alb['cover'],
+            songs=alb['songs'])
+
     return home_page()
 
 app.run(debug=True)
