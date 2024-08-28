@@ -1,41 +1,61 @@
+from types import GetSetDescriptorType
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.wpewebkit.webdriver import WebDriver
+from Album import Album
 
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('log-level=1')
 
 
+def GetAlbum(searchTerm:str):
+    term = searchTerm.replace(' ' , "%20")
+    link = f"https://soundcloud.com/search/albums?q={term}"
+    driver = webdriver.Chrome(options);
+    albumLink = findAlbumLink(driver , link)
+    ChosenAlbum = Album()
 
-term = "Vultures"
-term = term.replace(' ' , "%20")
-link = f"https://soundcloud.com/search/albums?q={term}"
+    driver.get(url= albumLink)
 
+    ChosenAlbum.Songs = GetSongs(driver)
+    info = GetInfo(driver)
+    ChosenAlbum.Name = info[0]
+    ChosenAlbum.Artist = info[1]
+    ChosenAlbum.Year = info[2]
 
-driver = webdriver.Chrome(options);
-
-driver.get(link)
-
-e = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.XPATH , "(//a[@class='sound__coverArt'])[1]")))
-albumLink = str(e.get_property('href'))
-
-driver.get(albumLink)
-e = driver.find_elements(By.XPATH , "//div[contains(@class , 'trackItem__content')]/a")
-songs = [ele.text for ele in e]
-
-y = driver.find_element(By.XPATH , "//dd[@class='listenInfo__releaseData sc-text-secondary']")
-year = y.text.split(" ")[-1]
-
-a = driver.find_element(By.XPATH , "//div[@class='soundTitle__usernameHeroContainer']/h2/a")
-artist= a.text.replace("Verified" , "")
-
-n = driver.find_element(By.XPATH , "//div[@class='soundTitle__titleHeroContainer']//span")
-name = n.text
+    ChosenAlbum.CoverLink = GetCoverLink(driver)
 
 
-print(f"{name} \n {artist} \n {year} \n {songs}")
-driver.quit()
+    driver.quit()
+    return ChosenAlbum.ToDictionary()
+
+
+def findAlbumLink(driver, link:str)->str:
+    driver.get(url= link)
+    e = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH , "(//a[@class='sound__coverArt'])[1]")))
+    return str(e.get_property('href'))
+
+def GetSongs(driver):
+    e = driver.find_elements(By.XPATH , "//div[contains(@class , 'trackItem__content')]/a")
+    return [ele.text for ele in e]
+
+def GetInfo(driver):
+    y = driver.find_element(By.XPATH , "//dd[@class='listenInfo__releaseData sc-text-secondary']")
+    year = y.text.split(" ")[-1]
+
+    a = driver.find_element(By.XPATH , "//div[@class='soundTitle__usernameHeroContainer']/h2/a")
+    artist= a.text.replace("Verified" , "")
+
+    n = driver.find_element(By.XPATH , "//div[@class='soundTitle__titleHeroContainer']//span")
+    name = n.text
+    return [name, artist, year]
+
+def GetCoverLink(driver):
+    s = driver.find_element(By.XPATH, "//div[@class= 'fullHero__artwork']//span")
+    style = str(s.get_attribute("style"))
+
+    return style.split("url(\"")[1].split("\");")[0]

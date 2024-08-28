@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.wpewebkit.webdriver import WebDriver
 from defaultAlbums import defaultsearches as defaults
 import random
+from Album import Album
 
 
 
@@ -10,52 +11,6 @@ options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('log-level=1') # so it wont print warnings from websites being mad at headless browsers
 
-
-class Album:
-
-    Name = ""
-
-    Artist = ""
-
-    Year = ""
-
-    CoverLink = ""
-
-    Songs = []
-
-    def info(self):
-        return f"{self.Name} by {self.Artist} in {self.Year}"
-
-    def all(self):
-        return f"{self.info()} \n {self.CoverLink} \n {self.Songs}"
-
-    def removeParens(self, string):
-        result = ""
-        parentheses_count = 0
-        for char in string:
-            if char == '(':
-                parentheses_count += 1
-            elif char == ')':
-                parentheses_count -= 1
-            elif parentheses_count == 0:
-                result += char
-        result += " " # if parentheses_count != 0 else " "
-        return result
-
-    def songs(self , includeParenthese = True):
-        return [(self.removeParens(song) if includeParenthese == False else song) for song in self.Songs]
-
-    def __str__(self):
-        return self.info() + "\n" + ''.join(self.songs(False))
-
-    def ToDictionary(self):
-        return {
-        "name": self.Name,
-        "artist": self.Artist,
-        "year": self.Year,
-        "cover": self.CoverLink,
-        "songs": self.Songs
-        }
 
 
 def formatForLink(searchString):

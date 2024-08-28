@@ -1,74 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html>
+    <title>Album Poster Creator</title>
 
-<title>Album Poster Creator</title>
+    <head>
+        <link rel="stylesheet" href="fonts.css" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap"
+        />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Fira+Sans&family=PT+Serif&display=swap"
+        />
 
-<head>
-    <link rel="stylesheet" href="fonts.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans&family=PT+Serif&display=swap">
+        <style>
+            body {
+                display: flex;
+                margin: 0;
+                height: 100vh;
+            }
 
-    <style>
+            li {
+                display: inline-block;
+                width: 20%;
+                padding: 10px;
+                box-sizing: border-box;
+            }
 
-        body{
-            display: flex;
-            margin: 0;
-            height: 100vh;
-        }
+            .split {
+                flex: 1;
+                overflow: auto;
+            }
 
-        li{
-            display: inline-block;
-            width: 20%; 
-            padding: 10px;
-            box-sizing: border-box;
-        }
+            .left {
+                background-color: #ececed;
+            }
 
-        .split {
-            flex: 1;
-            overlfow: auto;
-        }
-        
-        .left{
-            background-color: #ECECED;
-        }
-        
-        .right {
-            background-color: #E3F0FF;
-        }
-        
-        .centered img {
-            width: 500px;
-        }
+            .right {
+                background-color: #e3f0ff;
+            }
 
-        .songs{
-            font-weight: bold;
-        }
+            .centered img {
+                width: 500px;
+            }
+
+            .info {
+                display: flexbox;
+                justify-content: center;
+            }
+            .songs {
+                font-weight: bold;
+            }
         </style>
-</head>
+    </head>
 
-<body>
-<!-- Since I am stupid and will forget, a SPACE is combing the properties of both css tags-->
-<div class="split left pt-serif-regular"> 
-    <div class="centered">
-        <form action="" method= "POST" autocomplete=off>
-            <!--<label for="album_search">Album:</label><br>-->
-            <h1>Album:</h1>
-            <input type="text" id="album_search" name="album_search"><br>
-            <input type="submit" value="Submit">
-        </form>
-        <div>
-            Takes about 4 to 7 seconds to fetch
+    <body>
+        <!-- Since I am stupid and will forget, a SPACE is combing the properties of both css tags-->
+        <div class="split left pt-serif-regular">
+            <div class="centered">
+                <form action="" method="POST" autocomplete="off">
+                    <!--<label for="album_search">Album:</label><br>-->
+                    <h1>Album:</h1>
+                    <input type="text" id="album_search" name="album_search" />
+                    <br />
+
+                    <select name="ScrapeOption">
+                        <option value="Spotify">Spotify</option>
+                        <option value="Apple Music">Apple Music</option>
+                        <option value="Soundcloud">Soundcloud</option>
+                    </select>
+
+                    <input type="submit" value="Submit" />
+                </form>
+
+                <div>Takes a few seconds to fetch</div>
+            </div>
+            <div>Change Style</div>
+            <div>Export Poster</div>
         </div>
-    </div>
-</div>
 
-<div class="split right fira-sans-regular">
-    <!-- This right half can be replaced with some templates -->
-    {% block content %}
-    {% endblock %}
-</div>
-
-</body>
-
+        <div class="split right fira-sans-regular">
+            <!-- This right half can be replaced with some templates -->
+            {% block content %} {% endblock %}
+        </div>
+    </body>
 </html>

@@ -1,7 +1,9 @@
 from AppleScraper import GetAlbum as GetAppleMusic
 from SpotifyScraper import GetAlbum as GetSpotify
-from flask import Flask, render_template, request
+from SoundcloudScraper import GetAlbum as GetSoundcloud
+from flask import Flask, render_template, request, session
 from markupsafe import escape
+from Album import Album
 
 
 
@@ -17,7 +19,18 @@ def home_page():
 def search():
     data = None
     if request.method == 'POST':
-        alb = GetSpotify(escape(request.form['album_search']))
+        alb = {}
+        choice = request.form.get('ScrapeOption')
+        if not choice:
+            return home_page()
+        match choice:
+            case "Spotify":
+                alb = GetSpotify(escape(request.form["album_search"]))
+            case "Apple Music":
+                alb = GetAppleMusic(escape(request.form["album_search"]))
+            case "Soundcloud":
+                alb = GetSoundcloud(escape(request.form["album_search"]))
+
         return render_template('poster.html',
             name=alb['name'],
             artist=alb['artist'],

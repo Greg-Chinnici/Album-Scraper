@@ -4,60 +4,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.wpewebkit.webdriver import WebDriver
 from defaultAlbums import defaultsearches as defaults
-import random
+from Album import Album
 
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('log-level=1') # so it wont print warnings from websites being mad at headless browsers
 
-class Album:
-
-    Name :str = ""
-
-    Artist :str = ""
-
-    Year :str = ""
-
-    CoverLink :str = ""
-
-    Songs :list = []
-
-    def info(self) ->str:
-        return f"{self.Name} by {self.Artist} in {self.Year}"
-
-    def all(self) ->str:
-        return f"{self.info()} \n {self.CoverLink} \n {self.Songs}"
-
-    def removeParens(self, string) ->str:
-        result = ""
-        parentheses_count = 0
-        for char in string:
-            if char == '(':
-                parentheses_count += 1
-            elif char == ')':
-                parentheses_count -= 1
-            elif parentheses_count == 0:
-                result += char
-        result += " " # if parentheses_count != 0 else " "
-        return result
-
-    def songs(self , includeParenthese = True) ->list:
-        return [(self.removeParens(song) if includeParenthese == False else song) for song in self.Songs]
-
-    def __str__(self):
-        return self.info() + "\n" + ''.join(self.songs(False))
-
-    def ToDictionary(self) ->dict:
-        return {
-        "name": self.Name,
-        "artist": self.Artist,
-        "year": self.Year,
-        "cover": self.CoverLink,
-        "songs": self.Songs
-        }
-
-def formatForLink(searchString):
-    return searchString.replace(' ', "%20")
 
 def GetAlbum(searchTerm:str) ->dict:
     """
@@ -66,9 +18,8 @@ def GetAlbum(searchTerm:str) ->dict:
     return:
         dictionary of the album data. Defined in Album.ToDictionary
     """
-    #? you are at the mercy of spotifys SEO for albums
-    #? maybe add a selector that gives the top 3 from the search
-    term = formatForLink(searchTerm)
+    #? you are at the mercy of spotifys SEO for albums, but it seems that it is impossible to fail a search
+    term = searchTerm.replace(' ', "%20")
     searchWebsite = f"https://open.spotify.com/search/{term}/albums"
 
     driver = webdriver.Chrome(options);
@@ -117,12 +68,13 @@ def GetInfo(driver):
             (By.XPATH, "//span[@data-testid='entityTitle']/h1")))
     title = titleElement.text;
 
+    # For anyone reading this code in the future. I will explain this XPATH monster
+    # Look for a <span> that has a data-testid of "entityTitle"
+    # Get the first instance of it
+    # Get the next html element in the DOM (next to it)
+    # Return all elements under it that have text
     infoElements = driver.find_elements(By.XPATH, "//span[@data-testid='entityTitle'][1]/following-sibling::div//*[text()]")
-    i = [e.text for e  in infoElements]
+    i = [e.text for e in infoElements]
     i.append(title)
 
     return i
-
-d = GetAlbum("Lil Tecca")
-print(d)
-print(d["cover"])
