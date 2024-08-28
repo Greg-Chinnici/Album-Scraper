@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Album import Album
 from urllib import parse
+import random
+from defaultAlbums import defaultsearches as defaults
 
 
 options = webdriver.ChromeOptions()
@@ -13,8 +15,13 @@ options.add_argument('log-level=1')
 
 def GetAlbum(searchTerm:str):
     term = parse.quote(searchTerm)
-    link = f"https://soundcloud.com/search/albums?q={term}"
     driver = webdriver.Chrome(options)
+
+    if len(searchTerm) < 3:
+        searchTerm  = random.choice(defaults)
+    term = parse.quote(searchTerm)
+
+    link = f"https://soundcloud.com/search/albums?q={term}"
     albumLink = findAlbumLink(driver , link)
     ChosenAlbum = Album()
 
@@ -34,13 +41,15 @@ def GetAlbum(searchTerm:str):
 
 
 def findAlbumLink(driver, link:str)->str:
+    print(link)
     driver.get(url= link)
     e = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH , "(//a[@class='sound__coverArt'])[1]")))
     return str(e.get_property('href'))
 
 def GetSongs(driver):
-    e = driver.find_elements(By.XPATH , "//div[contains(@class , 'trackItem__content')]/a")
+    e = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located(((By.XPATH , "//div[contains(@class , 'trackItem__content')]/a"))))
     return [ele.text for ele in e]
 
 def GetInfo(driver):

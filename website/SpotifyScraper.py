@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Album import Album
 from urllib import parse
+from defaultAlbums import defaultsearches as defaults
+import random
 
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
@@ -19,6 +21,8 @@ def GetAlbum(searchTerm:str) ->dict:
     """
     #? you are at the mercy of spotifys SEO for albums, but it seems that it is impossible to fail a search
     #! need to encode the whole string for url, not just spaces
+    if len(searchTerm) < 3:
+        searchTerm  = random.choice(defaults)
     term = parse.quote(searchTerm)
     searchWebsite = f"https://open.spotify.com/search/{term}/albums"
 
@@ -45,6 +49,7 @@ def GetAlbum(searchTerm:str) ->dict:
 
 def findAlbumLink(website :str, driver) ->str:
     driver.get(website)
+    print(website)
 
     element = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
