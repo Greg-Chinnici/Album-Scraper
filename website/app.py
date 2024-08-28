@@ -1,10 +1,10 @@
-from werkzeug.utils import redirect
 from AppleScraper import GetAlbum as GetAppleMusic
 from SpotifyScraper import GetAlbum as GetSpotify
 from SoundcloudScraper import GetAlbum as GetSoundcloud
 
 from flask import Flask, render_template, request, session, url_for
 from markupsafe import escape
+from werkzeug.utils import redirect
 
 
 
