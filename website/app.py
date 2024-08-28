@@ -41,8 +41,12 @@ def search():
     else:
         return home_page()
 
-@app.route('/found')
+@app.route('/found' , methods = ['GET' , "POST"])
 def found():
+    # if searching a new album after finding one
+    if request.method == "POST":
+        return search()
+
     alb = session.get('album')
 
     return render_template('poster.html',
