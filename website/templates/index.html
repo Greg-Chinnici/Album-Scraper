@@ -77,12 +77,20 @@
                 <div>Takes a few seconds to fetch</div>
             </div>
             <div>Change Style</div>
-            <div>Export</div>
+
+            {% block exporter %}
+
+            {% if name %}
+            <button>Export the Screenshot</button>
+            {% endif %}
+
+            {% endblock %}
+
         </div>
 
-        <div class="split right fira-sans-regular">
+        <div class="split right fira-sans-regular" id="capture">
             <!-- This right half can be replaced with some templates -->
-            {% block content %} {% endblock %}
+            {% block poster %} {% endblock %}
         </div>
     </body>
 </html>

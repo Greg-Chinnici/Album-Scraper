@@ -1,14 +1,14 @@
 {% extends "index.html" %}
-{% block content %}
-        
-      
+{% block poster %}
+
+
         <div class="info">
             {% if name %}
                 <h1 id="name">{{ name }}</h1>
             {% else %}
                 <h1 id="name">Name</h1>
             {% endif %}
-            
+
             {% if year %}
                 <h2 id="year">{{ year }}</h2>
             {% else %}
@@ -20,17 +20,17 @@
             {% else %}
                 <h2 id="artist">Artist</h2>
             {% endif %}
-            
+
             {% if cover %}
                 <img id="cover" src= {{ cover }} >
             {% endif %}
         </div>
-        
+
         <ul class="songs" id="songslist">
             {% for song in songs %}
             <li>{{ song }}</li>
             {% endfor %}
         </ul>
-    
-        
+
+
 {% endblock %}
