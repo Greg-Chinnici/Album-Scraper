@@ -21,15 +21,16 @@ def search():
     if request.method == 'POST':
         alb = {}
         choice = request.form.get('ScrapeOption')
+        searchTerm = str(escape(request.form["album_search"]))
         if not choice:
             return home_page()
         match choice:
             case "Spotify":
-                alb = GetSpotify(escape(request.form["album_search"]))
+                alb = GetSpotify(searchTerm)
             case "Apple Music":
-                alb = GetAppleMusic(escape(request.form["album_search"]))
+                alb = GetAppleMusic(searchTerm)
             case "Soundcloud":
-                alb = GetSoundcloud(escape(request.form["album_search"]))
+                alb = GetSoundcloud(searchTerm)
 
         return render_template('poster.html',
             name=alb['name'],

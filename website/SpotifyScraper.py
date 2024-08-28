@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.wpewebkit.webdriver import WebDriver
 from defaultAlbums import defaultsearches as defaults
 from Album import Album
+from urllib import parse
 
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
@@ -19,7 +20,8 @@ def GetAlbum(searchTerm:str) ->dict:
         dictionary of the album data. Defined in Album.ToDictionary
     """
     #? you are at the mercy of spotifys SEO for albums, but it seems that it is impossible to fail a search
-    term = searchTerm.replace(' ', "%20")
+    #! need to encode the whole string for url, not just spaces
+    term = parse.quote(searchTerm)
     searchWebsite = f"https://open.spotify.com/search/{term}/albums"
 
     driver = webdriver.Chrome(options);

@@ -4,6 +4,8 @@ from selenium.webdriver.wpewebkit.webdriver import WebDriver
 from defaultAlbums import defaultsearches as defaults
 import random
 from Album import Album
+from urllib import parse
+
 
 
 
@@ -26,7 +28,7 @@ def GetAlbum(searchTerm:str):
     """
     #? you are at the mercy of Apple's SEO for albums, sometimes it will give the deluxe versions
     #? maybe add a selector that gives the top 3 from the search
-    term = formatForLink(searchTerm)
+    term = parse.quote(searchTerm)
     searchWebsite = f"https://music.apple.com/us/search?term={term}"
 
     driver = webdriver.Chrome(options);

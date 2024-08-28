@@ -5,6 +5,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.wpewebkit.webdriver import WebDriver
 from Album import Album
+from urllib import parse
+
 
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
@@ -12,7 +14,7 @@ options.add_argument('log-level=1')
 
 
 def GetAlbum(searchTerm:str):
-    term = searchTerm.replace(' ' , "%20")
+    term = parse.quote(searchTerm)
     link = f"https://soundcloud.com/search/albums?q={term}"
     driver = webdriver.Chrome(options);
     albumLink = findAlbumLink(driver , link)
