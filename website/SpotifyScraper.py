@@ -80,7 +80,7 @@ def GetAlbum(searchTerm:str) ->dict:
     driver.get(url = albumLink)
 
     ChosenAlbum.CoverLink = GetCoverLink(driver)
-
+    print(ChosenAlbum.CoverLink)
     info = GetInfo(driver)
     ChosenAlbum.Artist = info[0]
     ChosenAlbum.Year = info[1]
@@ -105,9 +105,11 @@ def GetSongs(driver):
     return [e.text for e in songElements]
 
 def GetCoverLink(driver):
-    img = driver.find_element(By.XPATH , "(//img)[1]")
-    srcset = img.get_attribute('srcset')
-    return srcset.split(',')[-1].split(' ')[0]
+    img = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH , "(//img)[1][@loading='lazy']")))
+    srcset = str(img.get_attribute('srcset'))
+    return srcset.split(',')[-1].strip().split(" ")[0]
+
 
 def GetInfo(driver):
     titleElement = WebDriverWait(driver, 10).until(
@@ -121,9 +123,6 @@ def GetInfo(driver):
 
     return i
 
-
-
-print(GetAlbum("lil tecca"))
-print(GetAlbum("Mansion Musik"))
-print(GetAlbum("Chief Keef Faneto"))
-print(GetAlbum("Shoreline Mafia Party Pack"))
+d = GetAlbum("Lil Tecca")
+print(d)
+print(d["cover"])
