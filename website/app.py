@@ -49,6 +49,9 @@ def found():
 
     alb = session.get('album')
 
+    # instead of just poster.html, i want to have many versions preset
+    # or some way to customize the layout
+
     return render_template('poster.html',
         name=alb['name'],
         artist=alb['artist'],
