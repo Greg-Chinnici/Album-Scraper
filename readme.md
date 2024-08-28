@@ -20,5 +20,5 @@
 
 #### Notes:
 
-- dont use the svelt class names in xpath because they constantly change
 - some artists dont post to apple music, thats why i want to have different interfaces
+- Working on making it work with soundcloud now
