@@ -1,6 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.wpewebkit.webdriver import WebDriver
 from defaultAlbums import defaultsearches as defaults
 import random
 from Album import Album
@@ -31,7 +30,7 @@ def GetAlbum(searchTerm:str):
     term = parse.quote(searchTerm)
     searchWebsite = f"https://music.apple.com/us/search?term={term}"
 
-    driver = webdriver.Chrome(options);
+    driver = webdriver.Chrome(options)
 
     albumLink, altLinks = findAlbumLink(searchWebsite, driver)
     # once it gets past here, it is definetly a valid album. sometimes the wrong one. so give list of alternative options

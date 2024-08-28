@@ -2,8 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.wpewebkit.webdriver import WebDriver
-from defaultAlbums import defaultsearches as defaults
 from Album import Album
 from urllib import parse
 
@@ -24,7 +22,7 @@ def GetAlbum(searchTerm:str) ->dict:
     term = parse.quote(searchTerm)
     searchWebsite = f"https://open.spotify.com/search/{term}/albums"
 
-    driver = webdriver.Chrome(options);
+    driver = webdriver.Chrome(options)
     albumLink = findAlbumLink(searchWebsite, driver)
 
     # once it gets past here, it is definetly a valid album. sometimes the wrong one. so give list of alternative options
@@ -68,7 +66,7 @@ def GetInfo(driver):
     titleElement = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
             (By.XPATH, "//span[@data-testid='entityTitle']/h1")))
-    title = titleElement.text;
+    title = titleElement.text
 
     # For anyone reading this code in the future. I will explain this XPATH monster
     # Look for a <span> that has a data-testid of "entityTitle"

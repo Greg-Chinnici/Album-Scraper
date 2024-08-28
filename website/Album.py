@@ -30,7 +30,7 @@ class Album:
         return result
 
     def songs(self , includeParenthese = True) ->list:
-        return [(self.removeParens(song) if includeParenthese == False else song) for song in self.Songs]
+        return [(self.removeParens(song) if includeParenthese is False else song) for song in self.Songs]
 
     def __str__(self):
         return self.info() + "\n" + ''.join(self.songs(False))

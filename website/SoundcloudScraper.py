@@ -1,9 +1,7 @@
-from types import GetSetDescriptorType
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.wpewebkit.webdriver import WebDriver
 from Album import Album
 from urllib import parse
 
@@ -16,7 +14,7 @@ options.add_argument('log-level=1')
 def GetAlbum(searchTerm:str):
     term = parse.quote(searchTerm)
     link = f"https://soundcloud.com/search/albums?q={term}"
-    driver = webdriver.Chrome(options);
+    driver = webdriver.Chrome(options)
     albumLink = findAlbumLink(driver , link)
     ChosenAlbum = Album()
 
