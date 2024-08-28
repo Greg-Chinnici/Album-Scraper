@@ -23,4 +23,4 @@
 #### Notes:
 
 - some artists dont post to apple music, thats why i want to have different interfaces
-- Working on making it work with soundcloud now
+- Working on making it work with YouTube Music now
