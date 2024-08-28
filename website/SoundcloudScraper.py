@@ -1,0 +1,41 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.wpewebkit.webdriver import WebDriver
+
+options = webdriver.ChromeOptions()
+options.add_argument('headless')
+options.add_argument('log-level=1')
+
+
+
+term = "Vultures"
+term = term.replace(' ' , "%20")
+link = f"https://soundcloud.com/search/albums?q={term}"
+
+
+driver = webdriver.Chrome(options);
+
+driver.get(link)
+
+e = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.XPATH , "(//a[@class='sound__coverArt'])[1]")))
+albumLink = str(e.get_property('href'))
+
+driver.get(albumLink)
+e = driver.find_elements(By.XPATH , "//div[contains(@class , 'trackItem__content')]/a")
+songs = [ele.text for ele in e]
+
+y = driver.find_element(By.XPATH , "//dd[@class='listenInfo__releaseData sc-text-secondary']")
+year = y.text.split(" ")[-1]
+
+a = driver.find_element(By.XPATH , "//div[@class='soundTitle__usernameHeroContainer']/h2/a")
+artist= a.text.replace("Verified" , "")
+
+n = driver.find_element(By.XPATH , "//div[@class='soundTitle__titleHeroContainer']//span")
+name = n.text
+
+
+print(f"{name} \n {artist} \n {year} \n {songs}")
+driver.quit()
