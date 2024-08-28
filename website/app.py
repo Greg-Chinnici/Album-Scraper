@@ -27,13 +27,13 @@ def search():
         if not choice:
             return home_page()
 
-        match choice:
-            case "Spotify":
-                alb = GetSpotify(searchTerm)
-            case "Apple Music":
-                alb = GetAppleMusic(searchTerm)
-            case "Soundcloud":
-                alb = GetSoundcloud(searchTerm)
+        if choice == "Spotify":
+            alb = GetSpotify(searchTerm)
+        if choice == "Apple Music":
+            alb = GetAppleMusic(searchTerm)
+        if choice == "Soundcloud":
+            alb = GetSoundcloud(searchTerm)
+
         session["album"] = alb
         session.modified = True
 
