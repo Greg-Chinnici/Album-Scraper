@@ -3,7 +3,9 @@
 ## This is a website that scrapes data to generate posters for music albums
 
 - orginally I made the scraper in c#
-- now it is made in python using headless selenium, the goal is the have the python on a server and return relvant info to the user
+- now it is made in python using headless selenium, the goal is the have the python on a server and return relevant info to the user
+- it gets all the songs from the <li> and <ul> things
+- all hte images are just refrencing the static links used by the websites
 
 ## Although it is better for it to be in python or js to be more compatible with my web stack
 
