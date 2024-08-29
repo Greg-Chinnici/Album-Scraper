@@ -11,6 +11,8 @@ from defaultAlbums import defaultsearches as defaults
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('log-level=1')
+options.add_argument('--no-sandbox')
+options.add_argument("--disable-extensions")
 
 
 def GetAlbum(searchTerm:str):

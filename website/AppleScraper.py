@@ -11,7 +11,8 @@ from urllib import parse
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('log-level=1') # so it wont print warnings from websites being mad at headless browsers
-
+options.add_argument('--no-sandbox')
+options.add_argument("--disable-extensions")
 
 
 def formatForLink(searchString):
