@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+{% block poster %}
+
+
+        <div class="info">
+            {% if cover %}
+            <img id="cover" src= {{ cover }} >
+            {% endif %}
+            <div>
+                {% if name %}
+                    <h1 id="name" style="display: inline;">{{ name }}</h1>
+                {% endif %}
+                {% if year %}
+                    <h2 id="year" style="display: inline;">{{ year }}</h2>
+                {% endif %}
+            </div>
+
+            {% if artist %}
+                <h2 id="artist">{{ artist }}</h2>
+            {% endif %}
+
+
+        </div>
+
+        <ul class="songs" id="songslist">
+            {% for song in songs %}
+            <li>{{ song }}</li>
+            {% endfor %}
+        </ul>
+
+
+{% endblock %}

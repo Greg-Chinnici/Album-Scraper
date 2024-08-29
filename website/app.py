@@ -2,7 +2,7 @@ from AppleScraper import GetAlbum as GetAppleMusic
 from SpotifyScraper import GetAlbum as GetSpotify
 from SoundcloudScraper import GetAlbum as GetSoundcloud
 
-from flask import Flask, render_template, request, session, url_for
+from flask import Flask, jsonify, render_template, request, session, url_for
 from markupsafe import escape
 from werkzeug.utils import redirect
 
@@ -14,6 +14,9 @@ app.secret_key = 'randomthingeventually'
 
 @app.route("/")
 def home_page():
+    if 'template' not in session:
+        session['template'] = 'template1'
+
     return render_template('index.html')
 
 # add an oauth or capcha to use the search
@@ -49,10 +52,12 @@ def found():
 
     alb = session.get('album')
 
-    # instead of just poster.html, i want to have many versions preset
-    # or some way to customize the layout
+    tem = request.form.get("template-selector")
+    if tem:
+        session['template'] = tem
 
-    return render_template('poster.html',
+    template = session['template']
+    return render_template(f'{template}.html',
         name=alb['name'],
         artist=alb['artist'],
         year=alb['year'],
