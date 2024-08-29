@@ -5,14 +5,8 @@ import random
 from Album import Album
 from urllib import parse
 
+from SeleniumDriver import CreateDriver
 
-
-
-options = webdriver.ChromeOptions()
-options.add_argument('headless')
-options.add_argument('log-level=1') # so it wont print warnings from websites being mad at headless browsers
-options.add_argument('--no-sandbox')
-options.add_argument("--disable-extensions")
 
 
 def formatForLink(searchString):
@@ -31,7 +25,7 @@ def GetAlbum(searchTerm:str):
     term = parse.quote(searchTerm)
     searchWebsite = f"https://music.apple.com/us/search?term={term}"
 
-    driver = webdriver.Chrome(options)
+    driver = CreateDriver()
 
     albumLink, altLinks = findAlbumLink(searchWebsite, driver)
     # once it gets past here, it is definetly a valid album. sometimes the wrong one. so give list of alternative options

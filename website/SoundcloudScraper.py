@@ -6,6 +6,7 @@ from Album import Album
 from urllib import parse
 import random
 from defaultAlbums import defaultsearches as defaults
+from SeleniumDriver import CreateDriver
 
 
 options = webdriver.ChromeOptions()
@@ -17,7 +18,7 @@ options.add_argument("--disable-extensions")
 
 def GetAlbum(searchTerm:str):
     term = parse.quote(searchTerm)
-    driver = webdriver.Chrome(options)
+    driver = CreateDriver()
 
     if len(searchTerm) < 3:
         searchTerm  = random.choice(defaults)

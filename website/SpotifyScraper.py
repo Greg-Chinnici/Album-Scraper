@@ -1,4 +1,3 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -6,12 +5,8 @@ from Album import Album
 from urllib import parse
 from defaultAlbums import defaultsearches as defaults
 import random
+from SeleniumDriver import CreateDriver
 
-options = webdriver.ChromeOptions()
-options.add_argument('headless')
-options.add_argument('log-level=1') # so it wont print warnings from websites being mad at headless browsers
-options.add_argument('--no-sandbox')
-options.add_argument("--disable-extensions")
 
 def GetAlbum(searchTerm:str) ->dict:
     """
@@ -27,7 +22,7 @@ def GetAlbum(searchTerm:str) ->dict:
     term = parse.quote(searchTerm)
     searchWebsite = f"https://open.spotify.com/search/{term}/albums"
 
-    driver = webdriver.Chrome(options)
+    driver = CreateDriver()
     albumLink = findAlbumLink(searchWebsite, driver)
 
     # once it gets past here, it is definetly a valid album. sometimes the wrong one. so give list of alternative options
