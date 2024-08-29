@@ -1,16 +1,11 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from defaultAlbums import defaultsearches as defaults
-import random
 from Album import Album
 from urllib import parse
+import random
 
 from SeleniumDriver import CreateDriver
 
-
-
-def formatForLink(searchString):
-    return searchString.replace(' ', "%20")
 
 #? sometimes it just breaks, not sure if it is the driver crashing or timing out
 def GetAlbum(searchTerm:str):
