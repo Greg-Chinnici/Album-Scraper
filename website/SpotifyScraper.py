@@ -8,17 +8,17 @@ import random
 from SeleniumDriver import CreateDriver
 
 
-def GetAlbum(searchTerm:str) ->dict:
+def GetAlbum(searchTerm: str) -> dict:
     """
     input:
         searchTerm (string): name and artist is enough
     return:
         dictionary of the album data. Defined in Album.ToDictionary
     """
-    #? you are at the mercy of spotifys SEO for albums, but it seems that it is impossible to fail a search
+    # ? you are at the mercy of spotifys SEO for albums, but it seems that it is impossible to fail a search
     #! need to encode the whole string for url, not just spaces
     if len(searchTerm) < 3:
-        searchTerm  = random.choice(defaults)
+        searchTerm = random.choice(defaults)
     term = parse.quote(searchTerm)
     searchWebsite = f"https://open.spotify.com/search/{term}/albums"
 
@@ -28,10 +28,9 @@ def GetAlbum(searchTerm:str) ->dict:
     # once it gets past here, it is definetly a valid album. sometimes the wrong one. so give list of alternative options
 
     ChosenAlbum = Album()
-    driver.get(url = albumLink)
+    driver.get(url=albumLink)
 
     ChosenAlbum.CoverLink = GetCoverLink(driver)
-    print(ChosenAlbum.CoverLink)
     info = GetInfo(driver)
     ChosenAlbum.Artist = info[0]
     ChosenAlbum.Year = info[1]
@@ -43,30 +42,40 @@ def GetAlbum(searchTerm:str) ->dict:
 
     return ChosenAlbum.ToDictionary()
 
-def findAlbumLink(website :str, driver) ->str:
+
+def findAlbumLink(website: str, driver) -> str:
     driver.get(website)
-    print(website)
 
     element = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
-            (By.XPATH ,'(((//div[@data-testid="grid-container"])[2])//a)[1]')))
-    return str(element.get_attribute('href'))
+            (By.XPATH, '(((//div[@data-testid="grid-container"])[2])//a)[1]')
+        )
+    )
+    possibleLink: str = str(element.get_attribute("href"))
+    return str(element.get_attribute("href"))
+
 
 def GetSongs(driver):
-    songElements = driver.find_elements(By.XPATH , '(//a[@data-testid="internal-track-link"]//div)')
+    songElements = driver.find_elements(
+        By.XPATH, '(//a[@data-testid="internal-track-link"]//div)'
+    )
     return [e.text for e in songElements]
+
 
 def GetCoverLink(driver):
     img = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH , "(//img)[1][@loading='lazy']")))
-    srcset = str(img.get_attribute('srcset'))
-    return srcset.split(',')[-1].strip().split(" ")[0]
+        EC.presence_of_element_located((By.XPATH, "(//img)[1][@loading='lazy']"))
+    )
+    srcset = str(img.get_attribute("srcset"))
+    return srcset.split(",")[-1].strip().split(" ")[0]
 
 
 def GetInfo(driver):
     titleElement = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(
-            (By.XPATH, "//span[@data-testid='entityTitle']/h1")))
+            (By.XPATH, "//span[@data-testid='entityTitle']/h1")
+        )
+    )
     title = titleElement.text
 
     # For anyone reading this code in the future. I will explain this XPATH monster
@@ -74,7 +83,10 @@ def GetInfo(driver):
     # Get the first instance of it
     # Get the next html element in the DOM (next to it)
     # Return all elements under it that have text
-    infoElements = driver.find_elements(By.XPATH, "//span[@data-testid='entityTitle'][1]/following-sibling::div//*[text()]")
+    infoElements = driver.find_elements(
+        By.XPATH,
+        "//span[@data-testid='entityTitle'][1]/following-sibling::div//*[text()]",
+    )
     i = [e.text for e in infoElements]
     i.append(title)
 

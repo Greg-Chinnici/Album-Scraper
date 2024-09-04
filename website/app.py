@@ -7,25 +7,26 @@ from markupsafe import escape
 from werkzeug.utils import redirect
 
 
-
 app = Flask(__name__)
-app.secret_key = 'randomthingeventually'
+app.secret_key = "randomthingeventually"
 
 
 @app.route("/")
 def home_page():
-    if 'template' not in session:
-        session['template'] = 'template1'
+    if "template" not in session:
+        session["template"] = "template1"
 
-    return render_template('index.html')
+    return render_template("index.html")
+
 
 # add an oauth or capcha to use the search
 
-@app.route('/', methods=['GET', 'POST'])
+
+@app.route("/", methods=["GET", "POST"])
 def search():
-    if request.method == 'POST':
+    if request.method == "POST":
         alb = {}
-        choice = request.form.get('ScrapeOption')
+        choice = request.form.get("ScrapeOption")
         searchTerm = str(escape(request.form["album_search"]))
         if not choice:
             return home_page()
@@ -40,28 +41,32 @@ def search():
         session["album"] = alb
         session.modified = True
 
-        return redirect(url_for('found'))
+        return redirect(url_for("found"))
     else:
         return home_page()
 
-@app.route('/found' , methods = ['GET' , "POST"])
+
+@app.route("/found", methods=["GET", "POST"])
 def found():
     # if searching a new album after finding one
     if request.method == "POST":
         return search()
 
-    alb = session.get('album')
+    alb = session.get("album")
 
     tem = request.form.get("template-selector")
     if tem:
-        session['template'] = tem
+        session["template"] = tem
 
-    template = session['template']
-    return render_template(f'{template}.html',
-        name=alb['name'],
-        artist=alb['artist'],
-        year=alb['year'],
-        cover=alb['cover'],
-        songs=alb['songs'])
+    template = session["template"]
+    return render_template(
+        f"{template}.html",
+        name=alb["name"],
+        artist=alb["artist"],
+        year=alb["year"],
+        cover=alb["cover"],
+        songs=alb["songs"],
+    )
+
 
 app.run(debug=True)

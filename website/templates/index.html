@@ -77,13 +77,18 @@
                 </form>
 
                 <div>Takes a few seconds to fetch</div>
-            </div>
+        	<footer style="position: fixed; bottom: 0; width: 50%; text-align: center; background-color: #f1f1f1; padding: 10px;">
+            <a href="https://github.com/Greg-Chinnici" target="_blank">My Github</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="https://www.humanesociety.org/how-you-can-help" target="_blank">Donate to Animals</a>
+       		 </footer>
+  		</div>
             <div>Change Style</div>
 
             {% block exporter %}
 
             {% if name %}
-            <button>Export the Screenshot</button>
+            <button id="screenshot">Export the Screenshot</button>
             <select id="template-selector" name="template-selector">
                 <option value="template1">Template 1</option>
                 <option value="template2">Template 2</option>
@@ -98,11 +103,7 @@
             <!-- This right half can be replaced with some templates -->
             {% block poster %} {% endblock %}
         </div>
-        <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: #f1f1f1; padding: 10px;">
-            <a href="https://github.com/Greg-Chinnici" target="_blank">My Github</a>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="https://www.humanesociety.org/how-you-can-help" target="_blank">Donate to Animals</a>
-        </footer>
+        
     </body>
 
 </html>
